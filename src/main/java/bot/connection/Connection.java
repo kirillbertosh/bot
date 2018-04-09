@@ -1,5 +1,7 @@
 package bot.connection;
 
+import bot.json.Parser;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -21,10 +23,10 @@ public class Connection
     }
 
     public void addCurrencyPairToExisting(String pair) {
-        this.currencyPair += "_" + pair;
+        this.currencyPair += "-" + pair;
     }
 
-    public void getInfo() throws Exception {
+    public String getInfo() throws Exception {
         urlConnection = new URL(urlString + "info").openConnection();
         urlConnection.setRequestProperty("User-Agent", userAgent);
         urlConnection.connect();
@@ -38,15 +40,11 @@ public class Connection
         }
         in.close();
 
-        System.out.println(response.toString());
+        return response.toString();
     }
 
-    public void getTickerInfoAboutPair(String pair) throws Exception {
-        this.currencyPair = pair;
-        urlString += "ticker/";
-        urlString += currencyPair;
-
-        urlConnection = new URL(urlString).openConnection();
+    public String getTickerInfoAboutPair(String pair) throws Exception {
+        urlConnection = new URL(urlString + "ticker/" + pair).openConnection();
         urlConnection.setRequestProperty("User-Agent", userAgent);
         urlConnection.connect();
 
@@ -59,7 +57,6 @@ public class Connection
         }
         in.close();
 
-        System.out.println(response.toString());
-
+        return response.toString();
     }
 }
