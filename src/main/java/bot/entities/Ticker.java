@@ -2,6 +2,7 @@ package bot.entities;
 
 public class Ticker {
 
+    private String tickerPairName;
     private double higherPrice;
     private double lowerPrice;
     private double averagePrice;
@@ -14,6 +15,14 @@ public class Ticker {
 
     public Ticker() {
 
+    }
+
+    public String getTickerPairName() {
+        return tickerPairName;
+    }
+
+    public void setTickerPairName(String tickerPairName) {
+        this.tickerPairName = tickerPairName;
     }
 
     public double getHigherPrice() {
@@ -91,7 +100,8 @@ public class Ticker {
     @Override
     public String toString() {
         return "Ticker{" +
-                "higherPrice=" + higherPrice +
+                "tickerPairName='" + tickerPairName + '\'' +
+                ", higherPrice=" + higherPrice +
                 ", lowerPrice=" + lowerPrice +
                 ", averagePrice=" + averagePrice +
                 ", volume=" + volume +

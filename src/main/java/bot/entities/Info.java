@@ -1,8 +1,8 @@
 package bot.entities;
 
+import bot.filemanager.FileManager;
+
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -28,14 +28,7 @@ public class Info {
     }
 
     public void savePairsToFile(String pairs) {
-        FileWriter writer = null;
-        try {
-            writer = new FileWriter("info.txt");
-            writer.write(pairs);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileManager.saveToFile(pairs, "info.txt");
     }
 
     public String[] getPairs() {
