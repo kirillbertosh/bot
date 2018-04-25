@@ -3,14 +3,14 @@ package bot.entities;
 public class Ticker {
 
     private String tickerPairName;
-    private float higherPrice;
-    private float lowerPrice;
-    private float averagePrice;
-    private float volume;
-    private float volumeInCurrency;
-    private float lastDealPrice;
-    private float buyPrice;
-    private float sellPrice;
+    private double higherPrice;
+    private double lowerPrice;
+    private double averagePrice;
+    private double volume;
+    private double volumeInCurrency;
+    private double lastDealPrice;
+    private double buyPrice;
+    private double sellPrice;
     private long updated;
 
     public Ticker() {
@@ -25,67 +25,67 @@ public class Ticker {
         this.tickerPairName = tickerPairName;
     }
 
-    public float getHigherPrice() {
+    public double getHigherPrice() {
         return higherPrice;
     }
 
-    public void setHigherPrice(float higherPrice) {
+    public void setHigherPrice(double higherPrice) {
         this.higherPrice = higherPrice;
     }
 
-    public float getLowerPrice() {
+    public double getLowerPrice() {
         return lowerPrice;
     }
 
-    public void setLowerPrice(float lowerPrice) {
+    public void setLowerPrice(double lowerPrice) {
         this.lowerPrice = lowerPrice;
     }
 
-    public float getAveragePrice() {
+    public double getAveragePrice() {
         return averagePrice;
     }
 
-    public void setAveragePrice(float averagePrice) {
+    public void setAveragePrice(double averagePrice) {
         this.averagePrice = averagePrice;
     }
 
-    public float getVolume() {
+    public double getVolume() {
         return volume;
     }
 
-    public void setVolume(float volume) {
+    public void setVolume(double volume) {
         this.volume = volume;
     }
 
-    public float getVolumeInCurrency() {
+    public double getVolumeInCurrency() {
         return volumeInCurrency;
     }
 
-    public void setVolumeInCurrency(float volumeInCurrency) {
+    public void setVolumeInCurrency(double volumeInCurrency) {
         this.volumeInCurrency = volumeInCurrency;
     }
 
-    public float getLastDealPrice() {
+    public double getLastDealPrice() {
         return lastDealPrice;
     }
 
-    public void setLastDealPrice(float lastDealPrice) {
+    public void setLastDealPrice(double lastDealPrice) {
         this.lastDealPrice = lastDealPrice;
     }
 
-    public float getBuyPrice() {
+    public double getBuyPrice() {
         return buyPrice;
     }
 
-    public void setBuyPrice(float buyPrice) {
+    public void setBuyPrice(double buyPrice) {
         this.buyPrice = buyPrice;
     }
 
-    public float getSellPrice() {
+    public double getSellPrice() {
         return sellPrice;
     }
 
-    public void setSellPrice(float sellPrice) {
+    public void setSellPrice(double sellPrice) {
         this.sellPrice = sellPrice;
     }
 
