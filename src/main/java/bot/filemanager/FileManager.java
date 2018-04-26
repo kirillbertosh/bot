@@ -57,6 +57,7 @@ public class FileManager {
             FileWriter writer = new FileWriter(fileName);
             for (Ticker ticker : list) {
                 writer.write(ticker.toString());
+                writer.write("\n");
             }
             writer.close();
             return true;
