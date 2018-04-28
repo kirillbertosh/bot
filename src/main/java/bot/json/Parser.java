@@ -40,8 +40,8 @@ public class Parser {
             for (int j = 0; j < 43; j++) {
                 try {
                     JSONObject jsonObject = (JSONObject) jsonParser.parse(tickerResponse);
-                    JSONObject structure = (JSONObject) jsonObject.get(info.getPairs()[counter]);
-                    Ticker ticker = parseTicker(structure, info.getPairs()[counter]);
+                    JSONObject structure = (JSONObject) jsonObject.get(info.getPairs().get(counter));
+                    Ticker ticker = parseTicker(structure, info.getPairs().get(counter));
                     tickerList.add(ticker);
                     System.out.println(counter);
                     counter++;
@@ -57,7 +57,7 @@ public class Parser {
         try {
             List<Ticker> tickerList = new ArrayList<Ticker>();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(tickers);
-            JSONObject structure = (JSONObject) jsonObject.get(info.getPairs()[0]);
+            JSONObject structure = (JSONObject) jsonObject.get(info.getPairs().get(0));
             System.out.println(structure);
             return tickerList;
         } catch (ParseException e) {

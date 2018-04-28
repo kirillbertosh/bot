@@ -7,11 +7,12 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.*;
 
 public class Connection
 {
-    private final int pairsCountInOneRequest = 43;
-    private final int requestsCount = 164;
+    private int pairsCountInOneRequest = 43;
+    private int requestsCount = 164;
     private URLConnection urlConnection;
     private String userAgent = "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36";
     private String urlString = "https://yobit.net/api/3/";
@@ -27,7 +28,7 @@ public class Connection
 
         BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
         String inputLine;
-        StringBuffer response = new StringBuffer();
+        StringBuilder response = new StringBuilder();
 
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
@@ -55,7 +56,7 @@ public class Connection
     }
 
     public String getTickerInfoAboutAllPair(Info info) throws Exception {
-        String[] pairs = info.getPairs();
+        List<String> pairs = info.getPairs();
         StringBuilder currencyPairs;
         StringBuilder result = new StringBuilder();
 
@@ -66,10 +67,10 @@ public class Connection
             currencyPairs = new StringBuilder();
             for (int i = 0; i < pairsCountInOneRequest; i++) {
                 if (currencyPairs.toString().equals("")) {
-                    currencyPairs.append(pairs[k]);
+                    currencyPairs.append(pairs.get(k));
                 } else {
                     currencyPairs.append("-");
-                    currencyPairs.append(pairs[k]);
+                    currencyPairs.append(pairs.get(k));
                 }
                 k++;
             }
@@ -88,11 +89,11 @@ public class Connection
             FileManager.saveTickerResponseToFile(response.toString(), counter);
             counter++;
 
+            System.out.println("Request");
+
             result.append(response);
             in.close();
-            Thread.sleep(800);
-
-
+            Thread.sleep(700);
         }
         return result.toString();
     }

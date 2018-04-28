@@ -2,43 +2,36 @@ package bot.entities;
 
 import bot.filemanager.FileManager;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class Info {
 
-    private String[] pairs = new String[7052];
+    private List<String> pairs = new ArrayList<String>();
 
     public Info() {
 
     }
 
     public void loadInfo() {
-        try {
-            int i = 0;
-            Scanner scanner = new Scanner(new File("info.txt"));
-            while (scanner.hasNext()) {
-                pairs[i] = scanner.nextLine();
-                i++;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        pairs = FileManager.loadInfoFromFile("info.txt");
     }
 
     public void savePairsToFile(String pairs) {
         FileManager.saveToFile(pairs, "info.txt");
     }
 
-    public String[] getPairs() {
+    public List<String> getPairs() {
         return pairs;
+    }
+
+    public void setPairs(List<String> pairs) {
+        this.pairs = pairs;
     }
 
     @Override
     public String toString() {
         return "Info{" +
-                "pairs=" + Arrays.toString(pairs) +
+                "pairs=" + pairs +
                 '}';
     }
 }

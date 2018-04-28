@@ -13,6 +13,21 @@ public class FileManager {
 
     }
 
+    public static List<String> loadInfoFromFile(String fileName) {
+        try {
+            List<String> resultList = new ArrayList<String>();
+            Scanner scanner = new Scanner(new File(fileName));
+            while (scanner.hasNext()) {
+                resultList.add(scanner.nextLine());
+            }
+            scanner.close();
+            return resultList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static String loadFromFile(String fileName) {
         try {
             String str = new String();
@@ -20,6 +35,7 @@ public class FileManager {
             while (scanner.hasNext()) {
                 str += scanner.nextLine();
             }
+            scanner.close();
             return str;
         } catch (Exception e) {
             e.printStackTrace();
