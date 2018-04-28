@@ -68,6 +68,19 @@ public class FileManager {
         }
     }
 
+    public static void saveZeroVolumeTickersToFile(List<Ticker> list) {
+        try {
+            FileWriter writer = new FileWriter("zero_tickers.txt");
+            for (Ticker ticker : list) {
+                writer.write(ticker.toString());
+                writer.write("\n");
+            }
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static boolean saveTickerListToFile(List<Ticker> list, String fileName) {
         try {
             FileWriter writer = new FileWriter(fileName);

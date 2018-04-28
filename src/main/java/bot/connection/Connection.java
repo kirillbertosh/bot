@@ -2,6 +2,7 @@ package bot.connection;
 
 import bot.entities.Info;
 import bot.filemanager.FileManager;
+import bot.variables.Variables;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,8 +12,6 @@ import java.util.*;
 
 public class Connection
 {
-    private int pairsCountInOneRequest = 43;
-    private int requestsCount = 164;
     private URLConnection urlConnection;
     private String userAgent = "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36";
     private String urlString = "https://yobit.net/api/3/";
@@ -63,9 +62,9 @@ public class Connection
         int counter = 0;
 
         int k = 0;
-        for (int j = 0; j < requestsCount; j++) {
+        for (int j = 0; j < Variables.REQUESTS_COUNT; j++) {
             currencyPairs = new StringBuilder();
-            for (int i = 0; i < pairsCountInOneRequest; i++) {
+            for (int i = 0; i < Variables.PAIRS_COUNT_IN_ONE_REQUEST; i++) {
                 if (currencyPairs.toString().equals("")) {
                     currencyPairs.append(pairs.get(k));
                 } else {
@@ -93,7 +92,7 @@ public class Connection
 
             result.append(response);
             in.close();
-            Thread.sleep(700);
+            Thread.sleep(500);
         }
         return result.toString();
     }

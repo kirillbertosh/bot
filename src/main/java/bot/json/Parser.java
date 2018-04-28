@@ -3,6 +3,7 @@ package bot.json;
 import bot.entities.Info;
 import bot.entities.Ticker;
 import bot.filemanager.FileManager;
+import bot.variables.Variables;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -35,9 +36,9 @@ public class Parser {
     public List<Ticker> parseAllTickersFromResponseFiles(Info info) {
         List<Ticker> tickerList = new ArrayList<Ticker>();
         int counter = 0;
-        for (int i = 0; i < 164; i++) {
+        for (int i = 0; i < Variables.REQUESTS_COUNT; i++) {
             String tickerResponse = FileManager.loadFromFile("tickers" + i + ".txt");
-            for (int j = 0; j < 43; j++) {
+            for (int j = 0; j < Variables.PAIRS_COUNT_IN_ONE_REQUEST; j++) {
                 try {
                     JSONObject jsonObject = (JSONObject) jsonParser.parse(tickerResponse);
                     JSONObject structure = (JSONObject) jsonObject.get(info.getPairs().get(counter));

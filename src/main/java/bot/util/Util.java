@@ -21,6 +21,10 @@ public class Util {
     }
 
     public static int getRequestsCount(int currencyPairsCount) {
+        return currencyPairsCount / getPairsCountInOneRequest(currencyPairsCount);
+    }
+
+    public static int getPairsCountInOneRequest(int currencyPairsCount) {
         List<Integer> simpleMultipliers = getSimpleMultipliers(currencyPairsCount);
         int result = 1;
         for (int number : simpleMultipliers) {
@@ -31,9 +35,5 @@ public class Util {
             }
         }
         return result;
-    }
-
-    public static int getPairsCountInOneRequest(int currencyPairsCount) {
-        return currencyPairsCount / getRequestsCount(currencyPairsCount);
     }
 }
