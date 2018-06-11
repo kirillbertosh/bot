@@ -15,7 +15,7 @@ public class FileManager {
 
     public static List<String> loadInfoFromFile(String fileName) {
         try {
-            List<String> resultList = new ArrayList<String>();
+            List<String> resultList = new ArrayList<>();
             Scanner scanner = new Scanner(new File(fileName));
             while (scanner.hasNext()) {
                 resultList.add(scanner.nextLine());
@@ -30,7 +30,7 @@ public class FileManager {
 
     public static String loadFromFile(String fileName) {
         try {
-            String str = new String();
+            String str = "";
             Scanner scanner = new Scanner(new File(fileName));
             while (scanner.hasNext()) {
                 str += scanner.nextLine();
@@ -43,28 +43,24 @@ public class FileManager {
         }
     }
 
-    public static boolean saveToFile(String data, String fileName) {
+    public static void saveToFile(String data, String fileName) {
         try {
             FileWriter writer;
             writer = new FileWriter(fileName);
             writer.write(data);
             writer.close();
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
     }
 
-    public static boolean saveTickerResponseToFile(String response, int counter) {
+    public static void saveTickerResponseToFile(String response, int counter) {
         try {
             FileWriter writer = new FileWriter("tickers" + counter + ".txt");
             writer.write(response);
             writer.close();
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
     }
 
@@ -81,7 +77,7 @@ public class FileManager {
         }
     }
 
-    public static boolean saveTickerListToFile(List<Ticker> list, String fileName) {
+    public static void saveTickerListToFile(List<Ticker> list, String fileName) {
         try {
             FileWriter writer = new FileWriter(fileName);
             for (Ticker ticker : list) {
@@ -89,10 +85,8 @@ public class FileManager {
                 writer.write("\n");
             }
             writer.close();
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
     }
 }

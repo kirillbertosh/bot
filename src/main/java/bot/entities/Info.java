@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Info {
 
-    private List<String> pairs = new ArrayList<String>();
+    private List<String> pairs = new ArrayList<>();
 
     public Info() {
 
