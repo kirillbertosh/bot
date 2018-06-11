@@ -2,7 +2,7 @@ package bot.connection;
 
 import bot.entities.Info;
 import bot.filemanager.FileManager;
-import bot.variables.Variables;
+import bot.util.Util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -59,12 +59,17 @@ public class Connection
         StringBuilder currencyPairs;
         StringBuilder result = new StringBuilder();
 
+        if (Util.REQUESTS_COUNT == 0) {
+            Util.REQUESTS_COUNT = Util.getRequestsCount(info.getPairs().size());
+            Util.LAST_REQUEST_PAIRS_COUNT = Util.getLastRequestPairsCount(info.getPairs().size());
+        }
+
         int counter = 0;
 
         int k = 0;
-        for (int j = 0; j < Variables.REQUESTS_COUNT; j++) {
+        for (int j = 0; j < Util.REQUESTS_COUNT; j++) {
             currencyPairs = new StringBuilder();
-            for (int i = 0; i < Variables.PAIRS_COUNT_IN_ONE_REQUEST; i++) {
+            for (int i = 0; i < Util.PAIRS_COUNT_IN_ONE_REQUEST; i++) {
                 if (currencyPairs.toString().equals("")) {
                     currencyPairs.append(pairs.get(k));
                 } else {
@@ -94,6 +99,38 @@ public class Connection
             in.close();
             Thread.sleep(500);
         }
+
+        result.append(getLastRequestTickerInfo(info, k, counter));
         return result.toString();
+    }
+
+    private StringBuffer getLastRequestTickerInfo(Info info, int k, int counter) throws Exception {
+        StringBuilder currencyPairs = new StringBuilder();
+        for (int i = 0; i < Util.LAST_REQUEST_PAIRS_COUNT; i++) {
+            if (currencyPairs.toString().equals("")) {
+                currencyPairs.append(info.getPairs().get(k));
+            } else {
+                currencyPairs.append("-");
+                currencyPairs.append(info.getPairs().get(k));
+            }
+            k++;
+        }
+        urlConnection = new URL(urlString + "ticker/" + currencyPairs).openConnection();
+        urlConnection.setRequestProperty("User-Agent", userAgent);
+        urlConnection.connect();
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+
+        FileManager.saveTickerResponseToFile(response.toString(), counter);
+
+        System.out.println("Request");
+        in.close();
+        return response;
     }
 }

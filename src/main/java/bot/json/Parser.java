@@ -3,7 +3,7 @@ package bot.json;
 import bot.entities.Info;
 import bot.entities.Ticker;
 import bot.filemanager.FileManager;
-import bot.variables.Variables;
+import bot.util.Util;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -34,11 +34,12 @@ public class Parser {
     }
 
     public List<Ticker> parseAllTickersFromResponseFiles(Info info) {
-        List<Ticker> tickerList = new ArrayList<Ticker>();
+        List<Ticker> tickerList = new ArrayList<>();
         int counter = 0;
-        for (int i = 0; i < Variables.REQUESTS_COUNT; i++) {
-            String tickerResponse = FileManager.loadFromFile("tickers" + i + ".txt");
-            for (int j = 0; j < Variables.PAIRS_COUNT_IN_ONE_REQUEST; j++) {
+        int fileNumber = 0;
+        for (; fileNumber < Util.REQUESTS_COUNT; fileNumber++) {
+            String tickerResponse = FileManager.loadFromFile("tickers" + fileNumber + ".txt");
+            for (int j = 0; j < Util.PAIRS_COUNT_IN_ONE_REQUEST; j++) {
                 try {
                     JSONObject jsonObject = (JSONObject) jsonParser.parse(tickerResponse);
                     JSONObject structure = (JSONObject) jsonObject.get(info.getPairs().get(counter));
@@ -51,19 +52,35 @@ public class Parser {
                 }
             }
         }
+        tickerList.addAll(parseLastRequestTickers(info, fileNumber, counter));
         return tickerList;
+    }
+
+    private List<Ticker> parseLastRequestTickers(Info info, int fileNumber, int counter) {
+        List<Ticker> tickers = new ArrayList<>();
+        String tickerResponse = FileManager.loadFromFile("tickers" + fileNumber + ".txt");
+        for (int i = 0; i < Util.LAST_REQUEST_PAIRS_COUNT; i++) {
+            try {
+                JSONObject jsonObject = (JSONObject) jsonParser.parse(tickerResponse);
+                JSONObject structure = (JSONObject) jsonObject.get(info.getPairs().get(counter));
+                Ticker ticker = parseTicker(structure, info.getPairs().get(counter));
+                tickers.add(ticker);
+                System.out.println(counter);
+                counter++;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return tickers;
     }
 
     public List<Ticker> parseAllTickers(String tickers, Info info) {
         try {
-            List<Ticker> tickerList = new ArrayList<Ticker>();
+            List<Ticker> tickerList = new ArrayList<>();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(tickers);
             JSONObject structure = (JSONObject) jsonObject.get(info.getPairs().get(0));
             System.out.println(structure);
             return tickerList;
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

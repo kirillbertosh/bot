@@ -1,39 +1,18 @@
 package bot.util;
 
-import java.util.*;
-
 public class Util {
 
-    private static final int maxPairsInOneRequest = 50;
-
-    private static List<Integer> getSimpleMultipliers(int number) {
-        List<Integer> resultList = new ArrayList<Integer>();
-        int divider = 2;
-        while (number != 1) {
-            if (number % divider == 0) {
-                number /= divider;
-                resultList.add(divider);
-            } else {
-                divider++;
-            }
-        }
-        return resultList;
-    }
+    public static final int PAIRS_COUNT_IN_ONE_REQUEST = 46;
+    public static int REQUESTS_COUNT;
+    public static int LAST_REQUEST_PAIRS_COUNT;
 
     public static int getRequestsCount(int currencyPairsCount) {
-        return currencyPairsCount / getPairsCountInOneRequest(currencyPairsCount);
+        REQUESTS_COUNT = currencyPairsCount / PAIRS_COUNT_IN_ONE_REQUEST;
+        return REQUESTS_COUNT;
     }
 
-    public static int getPairsCountInOneRequest(int currencyPairsCount) {
-        List<Integer> simpleMultipliers = getSimpleMultipliers(currencyPairsCount);
-        int result = 1;
-        for (int number : simpleMultipliers) {
-            result *= number;
-            if (result > maxPairsInOneRequest) {
-                result /= number;
-                break;
-            }
-        }
-        return result;
+    public static int getLastRequestPairsCount(int currencyPairsCount) {
+        LAST_REQUEST_PAIRS_COUNT = currencyPairsCount % PAIRS_COUNT_IN_ONE_REQUEST;
+        return LAST_REQUEST_PAIRS_COUNT;
     }
 }
