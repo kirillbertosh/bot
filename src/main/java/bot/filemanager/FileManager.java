@@ -8,15 +8,17 @@ import java.util.Scanner;
 import java.util.*;
 
 public class FileManager {
+    
+    public static final String INFO_FILENAME = "info.txt";
 
     public FileManager() {
 
     }
 
-    public static List<String> loadInfoFromFile(String fileName) {
+    public static List<String> loadInfoFromFile() {
         try {
             List<String> resultList = new ArrayList<>();
-            Scanner scanner = new Scanner(new File(fileName));
+            Scanner scanner = new Scanner(new File(INFO_FILENAME));
             while (scanner.hasNext()) {
                 resultList.add(scanner.nextLine());
             }
@@ -26,6 +28,10 @@ public class FileManager {
             e.printStackTrace();
             return null;
         }
+    }
+    
+    public static void saveInfoToFile(String info) {
+        saveToFile(info, INFO_FILENAME);
     }
 
     public static String loadFromFile(String fileName) {

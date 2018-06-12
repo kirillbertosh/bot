@@ -28,8 +28,8 @@ public class Parser {
         info = info.replaceAll("\"", "");
 
         Info resultInfo = new Info();
-        resultInfo.savePairsToFile(info);
-        resultInfo.loadInfo();
+        FileManager.saveInfoToFile(info);
+        resultInfo.setPairs(FileManager.loadInfoFromFile());
         return resultInfo;
     }
 
@@ -45,7 +45,6 @@ public class Parser {
                     JSONObject structure = (JSONObject) jsonObject.get(info.getPairs().get(counter));
                     Ticker ticker = parseTicker(structure, info.getPairs().get(counter));
                     tickerList.add(ticker);
-                    System.out.println(counter);
                     counter++;
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -65,7 +64,6 @@ public class Parser {
                 JSONObject structure = (JSONObject) jsonObject.get(info.getPairs().get(counter));
                 Ticker ticker = parseTicker(structure, info.getPairs().get(counter));
                 tickers.add(ticker);
-                System.out.println(counter);
                 counter++;
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -79,7 +77,6 @@ public class Parser {
             List<Ticker> tickerList = new ArrayList<>();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(tickers);
             JSONObject structure = (JSONObject) jsonObject.get(info.getPairs().get(0));
-            System.out.println(structure);
             return tickerList;
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,7 +104,6 @@ public class Parser {
         resultTicker.setSellPrice(
                 structure.get("sell").equals(0L) ? 0 : new Double(structure.get("sell").toString()));
         resultTicker.setUpdated((Long) structure.get("updated"));
-        System.out.println(resultTicker.toString());
         return resultTicker;
     }
 }

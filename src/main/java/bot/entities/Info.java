@@ -1,7 +1,5 @@
 package bot.entities;
 
-import bot.filemanager.FileManager;
-
 import java.util.*;
 
 public class Info {
@@ -10,14 +8,6 @@ public class Info {
 
     public Info() {
 
-    }
-
-    public void loadInfo() {
-        pairs = FileManager.loadInfoFromFile("info.txt");
-    }
-
-    public void savePairsToFile(String pairs) {
-        FileManager.saveToFile(pairs, "info.txt");
     }
 
     public List<String> getPairs() {
