@@ -10,7 +10,7 @@ public class Kernel {
     }
 
     public List<Ticker> findUnnecessaryTickers(List<Ticker> list) {
-        List<Ticker> resultList = new ArrayList();
+        List<Ticker> resultList = new ArrayList<>();
         for(Ticker ticker : list) {
             if (Math.abs(ticker.getHigherPrice() / ticker.getLowerPrice() - 1) < 0.05f) {
                 resultList.add(ticker);
@@ -34,15 +34,23 @@ public class Kernel {
     }
 
     public List<Ticker> findZeroVolumeTickers(List<Ticker> list) {
-        List<Ticker> resultList = new ArrayList<Ticker>();
+        List<Ticker> resultList = new ArrayList<>();
         for (Ticker ticker : list) {
             if (ticker.getVolume() == 0) {
                 resultList.add(ticker);
-                System.out.println("Zero");
-                System.out.println(ticker.toString());
             }
         }
-        System.out.println(resultList.size());
+        return resultList;
+    }
+
+    public List<Ticker> findTop10CurrencyPairsPerDay(List<Ticker> inputList, String currency) {
+        List<Ticker> resultList = new ArrayList<>();
+        resultList.addAll(inputList);
+        resultList.removeIf(t -> !t.getTickerPairName().contains("_" + currency));
+        resultList.sort(Comparator.comparingDouble(Ticker::getVolume));
+        Collections.reverse(resultList);
+        resultList = resultList.subList(0, 10);
+
         return resultList;
     }
 }

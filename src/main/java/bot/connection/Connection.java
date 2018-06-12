@@ -16,7 +16,7 @@ public class Connection
     private String userAgent = "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36";
     private String urlString = "https://yobit.net/api/3/";
 
-    public Connection() throws Exception {
+    public Connection() {
 
     }
 
@@ -54,7 +54,7 @@ public class Connection
         return response.toString();
     }
 
-    public String getTickerInfoAboutAllPair(Info info) throws Exception {
+    public String getTickerInfoAboutAllPairs(Info info) throws Exception {
         List<String> pairs = info.getPairs();
         StringBuilder currencyPairs;
         StringBuilder result = new StringBuilder();

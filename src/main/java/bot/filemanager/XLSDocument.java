@@ -14,25 +14,33 @@ import java.util.List;
 
 public class XLSDocument {
 
-    private static final String FILENAME = "currencyTop.xls";
+    private static String CURRENCY_TOP_FILENAME = "currencyTop";
 
-    private static int rowNumber = 2;
+    private int rowNumber;
     private static String[] columns =
             {"Currency pair", "Higher price", "Lower price", "Volume",
                     "Volume in currency", "Date and time             ", " "};
 
     private Workbook workbook = new XSSFWorkbook();
     private Sheet sheet;
-    private Cell headerCell;
 
-    public XLSDocument() {
-        sheet = workbook.createSheet("Top");
-        Row rowsNumberRow = sheet.createRow(0);
-        headerCell = rowsNumberRow.createCell(0);
-        headerCell.setCellValue(rowNumber - 2);
+    public XLSDocument(String currency) {
+        CURRENCY_TOP_FILENAME += currency.toUpperCase() + ".xls";
+        sheet = workbook.createSheet(new SimpleDateFormat("yyyy MM dd").format(Calendar.getInstance().getTime()));
+        initialize();
+        File file = new File(CURRENCY_TOP_FILENAME);
+        if (file.exists()) {
+            load();
+            System.out.println("File exist");
+        } else {
+            rowNumber = 2;
+            sheet.createRow(0);
+            sheet.getRow(0).createCell(0).setCellValue(rowNumber - 2);
+            save();
+        }
     }
 
-    public void initialize() {
+    private void initialize() {
         Row headerRow = sheet.createRow(1);
 
         int k = 0;
@@ -51,7 +59,8 @@ public class XLSDocument {
             addTickerToXLSDocument(tickerList.get(i), i * 7, row);
         }
         rowNumber++;
-        headerCell.setCellValue(rowNumber - 2);
+        sheet.getRow(0).getCell(0).setCellValue(rowNumber - 2);
+        System.out.println(sheet.getRow(0).getCell(0).getNumericCellValue());
     }
 
     private void addTickerToXLSDocument(Ticker ticker, int index, Row row) {
@@ -65,11 +74,10 @@ public class XLSDocument {
     }
 
     public void load() {
-        try (FileInputStream fileInput = new FileInputStream(FILENAME)) {
+        try (FileInputStream fileInput = new FileInputStream(CURRENCY_TOP_FILENAME)) {
             workbook = new XSSFWorkbook(fileInput);
             sheet = workbook.getSheetAt(0);
             rowNumber = (int)sheet.getRow(0).getCell(0).getNumericCellValue() + 2;
-            System.out.println(rowNumber);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -77,7 +85,7 @@ public class XLSDocument {
 
     public void save() {
         try {
-            FileOutputStream fileOut = new FileOutputStream(FILENAME);
+            FileOutputStream fileOut = new FileOutputStream(CURRENCY_TOP_FILENAME);
             workbook.write(fileOut);
             fileOut.flush();
             fileOut.close();
